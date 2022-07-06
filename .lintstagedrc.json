@@ -1,0 +1,4 @@
+{
+	"**/*.{js,cjs,ts}": ["eslint --fix --max-warnings=0 --ignore-path .gitignore"],
+	"**/*.{js,cjs,ts,json,md,html,css}": ["prettier --write --ignore-path .gitignore"]
+}

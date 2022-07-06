@@ -1,0 +1,53 @@
+{
+	"compilerOptions": {
+		// [Language and Environment]
+		"target": "esnext",
+
+		// [Modules]
+		// "rootDir": ".",
+		// "baseUrl": ".",
+		"outDir": "build",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+
+		// [Projects]
+		// "composite": true,
+		// "incremental": true,
+		// "disableReferencedProjectLoad": true,
+
+		// [Declarations]
+		"sourceMap": true,
+		"declaration": true,
+		"declarationMap": true,
+
+		// [Emit]
+		"newLine": "lf",
+		"noEmitOnError": true,
+		"preserveConstEnums": true,
+		// "preserveValueImports": true,
+		// "removeComments": true,
+		"importHelpers": true,
+
+		// [Interop Constraints]
+		"isolatedModules": true,
+		"esModuleInterop": true,
+
+		// [Type Checking]
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"importsNotUsedAsValues": "error",
+
+		// [Completeness]
+		"skipLibCheck": true,
+		"listEmittedFiles": true,
+		"forceConsistentCasingInFileNames": true
+	}
+}
