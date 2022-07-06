@@ -28,7 +28,7 @@
 		"up-hooks": "npx simple-git-hooks",
 		"prepare": "pnpm up-hooks",
 		"build": "tsup",
-		"watch": "nodemon ./src/compiler.ts",
+		"watch": "nodemon ./src/program/index.ts",
 		"check": "tsc -p tsconfig.check.json",
 		"format": "prettier . --write --ignore-path .gitignore",
 		"lint": "eslint . --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
