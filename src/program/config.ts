@@ -4,13 +4,13 @@ import { errorMessage, ErrorCode } from './error';
 import { formatDiagnostics } from './diagnostic';
 import { getCurrentDirectory, fileExists, readFile } from './util';
 
-export interface Options {
+export interface ConfigOptions {
 	configName?: string;
 	searchPath?: string;
 	compilerOptions?: ts.CompilerOptions;
 }
 
-export function findConfigFile(options: Options = {}) {
+export function findConfigFile(options: ConfigOptions = {}) {
 	const configName = options.configName ?? 'tsconfig.json';
 	const searchPath = options.searchPath ?? getCurrentDirectory();
 	const filePath = ts.findConfigFile(searchPath, fileExists, configName);
@@ -58,7 +58,8 @@ export function parseConfigFile(fileName: string, jsonText: string, compilerOpti
 
 	return { fileName, config };
 }
-export function loadConfig(options?: Options) {
+
+export function loadConfig(options?: ConfigOptions) {
 	try {
 		const configFile = findConfigFile(options);
 
@@ -82,8 +83,18 @@ export function loadConfig(options?: Options) {
 			throw parsedConfig.error;
 		}
 
-		return { config: parsedConfig };
+		return { config: parsedConfig.config };
 	} catch (error) {
 		return { error: error as Error };
 	}
+}
+
+export function getCompilerOptions(options?: ConfigOptions, compilerOptions?: ts.CompilerOptions) {
+	return {
+		...ts.getDefaultCompilerOptions(),
+		strict: true,
+		target: ts.ScriptTarget.Latest,
+		...(options?.compilerOptions ?? {}),
+		...(compilerOptions ?? {}),
+	} as ts.CompilerOptions;
 }
