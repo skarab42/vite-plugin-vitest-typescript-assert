@@ -1,9 +1,9 @@
 {
-	"extends": "./tsconfig.default.json",
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es2020",
-		"lib": ["es2020"]
-	},
-	"include": ["src"]
+  "extends": "./tsconfig.default.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "lib": ["es2020"]
+  },
+  "include": ["src"]
 }

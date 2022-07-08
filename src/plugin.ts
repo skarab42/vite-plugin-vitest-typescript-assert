@@ -1,43 +1,29 @@
 import type { Plugin } from 'vite';
-import { typeCheck } from './program';
-import MagicString from 'magic-string';
-import { createErrorString } from './error';
+import { transform } from './transform';
+import { fileNameMatch, type IncludeExclude } from './util';
 
-export function vitestTypescriptAssertPlugin(): Plugin {
-	return {
-		name: 'vitest:typescript-assert',
-		apply: 'serve',
-		enforce: 'pre',
-		transform(code, fileName) {
-			if (!fileName.endsWith('.test.ts')) {
-				// TODO get from config, with glob pattern
-				return;
-			}
+export interface PluginOptions {
+  include?: IncludeExclude['include'];
+  exclude?: IncludeExclude['exclude'];
+}
 
-			// WTF is appening here ????
-			code = code.replace(/\t/g, '        ');
+const defaultOptions = {
+  include: ['**/*.test.ts'],
+  exclude: [],
+};
 
-			const result = typeCheck({
-				configName: 'tsconfig.check.json',
-				input: { fileName, code },
-			});
+export function vitestTypescriptAssertPlugin(options: PluginOptions = {}): Plugin {
+  const { include, exclude } = { ...defaultOptions, ...options };
 
-			const newCode = new MagicString(code);
+  return {
+    name: 'vitest:typescript-assert',
+    enforce: 'pre',
+    transform(code, fileName) {
+      if (!fileNameMatch(fileName, { include, exclude })) {
+        return;
+      }
 
-			result.assertionDiagnostics?.forEach((diagnostic) => {
-				const column = diagnostic.position.character;
-				const line = diagnostic.position.line;
-				const message = diagnostic.message.replace(/"/g, '\\"');
-
-				const lastBlockNode = diagnostic.path[diagnostic.path.length - 1]?.node;
-				const lastBlockPosition = lastBlockNode?.getEnd() ?? newCode.length();
-				newCode.appendLeft(lastBlockPosition - 2, createErrorString({ message, file: fileName, line, column }));
-			});
-
-			return {
-				code: newCode.toString(),
-				map: newCode.generateMap({ hires: true }),
-			};
-		},
-	};
+      return transform({ code, fileName });
+    },
+  };
 }
