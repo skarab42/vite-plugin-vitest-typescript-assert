@@ -31,7 +31,12 @@ export function vitestTypescriptAssertPlugin(options: PluginOptions = {}): Plugi
         return;
       }
 
-      return transform({ code, fileName, tsconfig: tsconfig.config });
+      return transform({
+        code,
+        fileName,
+        tsconfig: tsconfig.config,
+        shouldReportDiagnostics: !!typescript?.shouldReportDiagnostics,
+      });
     },
   };
 }

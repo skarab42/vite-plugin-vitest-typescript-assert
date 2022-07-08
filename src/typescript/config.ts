@@ -1,5 +1,5 @@
 import path from 'path';
-import ts from 'typescript';
+import ts from 'byots';
 import { formatDiagnostics } from './diagnostic';
 import { errorMessage, ErrorCode } from '../error';
 import { getCurrentDirectory, fileExists, readFile } from './util';
@@ -8,6 +8,7 @@ export interface TypeScriptConfigOptions {
   configName?: string;
   searchPath?: string;
   compilerOptions?: ts.CompilerOptions;
+  shouldReportDiagnostics?: boolean;
 }
 
 export function findConfigFile(options: TypeScriptConfigOptions = {}) {
@@ -87,14 +88,4 @@ export function loadConfig(options?: TypeScriptConfigOptions) {
   } catch (error) {
     return { error: error as Error };
   }
-}
-
-export function getCompilerOptions(options?: TypeScriptConfigOptions, compilerOptions?: ts.CompilerOptions) {
-  return {
-    ...ts.getDefaultCompilerOptions(),
-    strict: true,
-    target: ts.ScriptTarget.Latest,
-    ...(options?.compilerOptions ?? {}),
-    ...(compilerOptions ?? {}),
-  } as ts.CompilerOptions;
 }

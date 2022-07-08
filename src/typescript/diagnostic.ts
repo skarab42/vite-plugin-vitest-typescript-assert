@@ -1,4 +1,4 @@
-import ts from 'typescript';
+import ts from 'byots';
 import { getCurrentDirectory, newLine } from './util';
 
 export const diagnosticsHost: ts.FormatDiagnosticsHost = {

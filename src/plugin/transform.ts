@@ -1,18 +1,23 @@
-import type ts from 'typescript';
+import type ts from 'byots';
 import MagicString from 'magic-string';
+import { reportDiagnostics } from './util';
 import type { TransformResult } from 'vite';
+import { program } from '../typescript/program';
 
 export interface TransformOptions {
   code: string;
   fileName: string;
   tsconfig: ts.ParsedCommandLine;
+  shouldReportDiagnostics?: boolean;
 }
 
-export function transform({ code, fileName, tsconfig }: TransformOptions): TransformResult {
+export function transform({ code, fileName, tsconfig, shouldReportDiagnostics }: TransformOptions): TransformResult {
+  const { diagnostics } = program({ config: tsconfig, fileName });
   const newCode = new MagicString(code);
 
-  // eslint-disable-next-line no-console
-  console.log({ fileName, tsconfig });
+  if (shouldReportDiagnostics) {
+    reportDiagnostics(diagnostics, newCode, fileName);
+  }
 
   return {
     code: newCode.toString(),
