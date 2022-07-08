@@ -2,7 +2,7 @@ import path from 'path';
 import ts from 'typescript';
 import { normalizePath } from 'vite';
 
-export const newLine = '\n';
+export const newLine = '\r\n';
 
 export function getCurrentDirectory() {
 	return ts.sys.getCurrentDirectory();

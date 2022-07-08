@@ -1,7 +1,9 @@
-export function expectType<T = undefined>(value: unknown): T {
-	return value as T;
-}
+export function expectType<SourceType>(source?: unknown) {
+	const dumbFunction = <TargetType>(target?: unknown) => {
+		return [source, target] as [SourceType, TargetType];
+	};
 
-export function expectTypeEqual<T = undefined>(value: unknown): T {
-	return value as T;
+	return {
+		assignableTo: dumbFunction,
+	};
 }

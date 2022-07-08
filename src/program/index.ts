@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { normalizePath } from 'vite';
-import { getAssertions } from './assertions';
+import { getAssertions, processAssertions } from './assertions';
 import { getCompilerOptions, loadConfig, type ConfigOptions } from './config';
 import { fileExists, getCurrentDirectory, getDefaultLibLocation, newLine, readFile } from './util';
 
@@ -50,13 +50,14 @@ export function typeCheck(options: Options) {
 
 	const program = ts.createProgram([inputFileName], compilerOptions, compilerHost);
 	const diagnostics = ts.getPreEmitDiagnostics(program);
-	// const typeChecker = program.getTypeChecker();
+	const typeChecker = program.getTypeChecker();
 
 	if (diagnostics.length) {
 		return { diagnostics };
 	}
 
 	const assertions = getAssertions(sourceFile);
+	const assertionDiagnostics = processAssertions(assertions, typeChecker);
 
-	return { assertions };
+	return { assertions, diagnostics, assertionDiagnostics };
 }
