@@ -9,38 +9,55 @@ export type APIName = 'tsd' | 'tssert';
 export const API_MODULE_KEY = 'VITE_PLUGIN_VITEST_TYPESCRIPT_ASSERT';
 export const API_NAMES: readonly APIName[] = ['tsd', 'tssert'] as const;
 
-export function searchTestWrapperFromPosition(file: ts.SourceFile, position: number) {
-  const token = ts.getTokenAtPosition(file, position);
+export interface TestWrapper {
+  name: string;
+  expression: ts.Expression;
+  handler: ts.Expression;
+}
 
-  let parent: ts.Node | undefined = token.parent;
+export function searchTestWrapperFromPosition(sourceFile: ts.SourceFile, position: number): TestWrapper | undefined {
+  let wrapper: TestWrapper | undefined = undefined;
 
-  while (parent) {
-    if (ts.isCallExpression(parent)) {
-      const expression = parent.expression;
+  function visit(node: ts.Node) {
+    if (node.getStart() > position) {
+      return;
+    }
+
+    if (ts.isCallExpression(node)) {
+      const expression = node.expression;
       const identifier = expression.getText();
 
       if (testWrapperIdentifiers.includes(identifier)) {
-        const name = parent.arguments[0]?.getText().slice(1, -1);
-        const handler = parent.arguments[1];
+        const name = node.arguments[0]?.getText().slice(1, -1);
+        const handler = node.arguments[1];
 
         if (name && handler) {
-          return { name, expression, handler };
+          wrapper = { name, expression, handler };
         }
       }
-
-      parent = undefined;
     }
 
-    parent = parent?.parent;
+    node.forEachChild(visit);
   }
 
-  return undefined;
+  visit(sourceFile);
+
+  return wrapper;
+}
+
+export function createAssertionDiagnostic(message: string, file: ts.SourceFile, start: number): ts.Diagnostic {
+  return {
+    category: ts.DiagnosticCategory.Error,
+    code: -42,
+    file,
+    start,
+    length: undefined,
+    messageText: message,
+  };
 }
 
 export function reportDiagnostics(diagnostics: readonly ts.Diagnostic[], newCode: MagicString, fileName: string) {
-  if (diagnostics[0]) {
-    const { messageText, start, file } = diagnostics[0];
-
+  diagnostics.forEach(({ messageText, start, file }) => {
     if (file) {
       const startPosition = start ?? -1;
       const message = ts.flattenDiagnosticMessageText(messageText, newLine);
@@ -54,7 +71,7 @@ export function reportDiagnostics(diagnostics: readonly ts.Diagnostic[], newCode
         newCode.append(createErrorString({ message, file: fileName, line, column: character }));
       }
     }
-  }
+  });
 }
 
 // Probably the most disgusting function name I've ever written in my life. Pushing the limits!
