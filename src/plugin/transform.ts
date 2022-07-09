@@ -7,6 +7,8 @@ import { createProgram } from '../typescript/program';
 import type { TypeScriptConfigOptions } from '../typescript/config';
 import { type APIName, reportDiagnostics, tryToGetAPINAme } from './util';
 
+import * as api from './api';
+
 export interface TransformSettings {
   code: string;
   fileName: string;
@@ -50,14 +52,10 @@ function typeAssertion(fileName: string, sourceFile: ts.SourceFile, program: ts.
       }
 
       apiName = moduleAPIName;
-
-      // eslint-disable-next-line no-console
-      console.log({ apiName });
     }
 
-    if (ts.isCallExpression(node)) {
-      // eslint-disable-next-line no-console
-      console.log('>', node.getText());
+    if (apiName && ts.isCallExpression(node)) {
+      api[apiName].processCallExpression(node);
     }
 
     node.forEachChild(visit);
