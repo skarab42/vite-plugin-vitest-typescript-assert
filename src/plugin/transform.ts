@@ -28,7 +28,11 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
   }
 
   if (report.includes('type-assertion')) {
-    typeAssertion(fileName, sourceFile, program, checker);
+    const diagnostics = typeAssertion(fileName, sourceFile, program, checker);
+
+    if (diagnostics.length) {
+      reportDiagnostics(diagnostics, newCode, fileName);
+    }
   }
 
   return {
@@ -38,6 +42,8 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
 }
 
 function typeAssertion(fileName: string, sourceFile: ts.SourceFile, program: ts.Program, checker: ts.TypeChecker) {
+  const diagnostics: ts.Diagnostic[] = [];
+
   let apiName: APIName | undefined = undefined;
 
   function visit(node: ts.Node) {
@@ -55,11 +61,17 @@ function typeAssertion(fileName: string, sourceFile: ts.SourceFile, program: ts.
     }
 
     if (apiName && ts.isCallExpression(node)) {
-      api[apiName].processCallExpression(node);
+      const result = api[apiName].processCallExpression(sourceFile, node, checker);
+
+      if (result.diagnostic) {
+        diagnostics.push(result.diagnostic);
+      }
     }
 
     node.forEachChild(visit);
   }
 
   visit(sourceFile);
+
+  return diagnostics;
 }
