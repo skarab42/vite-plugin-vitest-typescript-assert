@@ -1,5 +1,5 @@
-import path from 'path';
 import ts from 'byots';
+import path from 'path';
 import { formatDiagnostics } from './diagnostic';
 import { errorMessage, ErrorCode } from '../error';
 import { getCurrentDirectory, fileExists, readFile } from './util';
@@ -8,7 +8,6 @@ export interface TypeScriptConfigOptions {
   configName?: string;
   searchPath?: string;
   compilerOptions?: ts.CompilerOptions;
-  shouldReportDiagnostics?: boolean;
 }
 
 export function findConfigFile(options: TypeScriptConfigOptions = {}) {

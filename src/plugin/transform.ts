@@ -1,21 +1,26 @@
 import type ts from 'byots';
+import type { Reporter } from '.';
 import MagicString from 'magic-string';
 import { reportDiagnostics } from './util';
 import type { TransformResult } from 'vite';
 import { program } from '../typescript/program';
+import type { TypeScriptConfigOptions } from '../typescript/config';
 
-export interface TransformOptions {
+export interface TransformSettings {
   code: string;
   fileName: string;
-  tsconfig: ts.ParsedCommandLine;
-  shouldReportDiagnostics?: boolean;
+  report: Reporter[];
+  typescript: {
+    config: ts.ParsedCommandLine;
+    options: TypeScriptConfigOptions;
+  };
 }
 
-export function transform({ code, fileName, tsconfig, shouldReportDiagnostics }: TransformOptions): TransformResult {
-  const { diagnostics } = program({ config: tsconfig, fileName });
+export function transform({ code, fileName, report, typescript }: TransformSettings): TransformResult {
+  const { diagnostics } = program({ config: typescript.config, fileName });
   const newCode = new MagicString(code);
 
-  if (shouldReportDiagnostics) {
+  if (report.includes('type-error')) {
     reportDiagnostics(diagnostics, newCode, fileName);
   }
 
