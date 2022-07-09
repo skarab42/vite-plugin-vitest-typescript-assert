@@ -19,11 +19,11 @@ export function createErrorString({
   err.stacks = [{
     file: "${file}",
     line: ${line + 1},
-    column: ${column},
+    column: ${column + 1},
     sourcePos: {
       source: "${file}",
       line: ${line + 1},
-      column: ${column}
+      column: ${column + 1}
     }
   }];
   throw err;
