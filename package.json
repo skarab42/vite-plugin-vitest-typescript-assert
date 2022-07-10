@@ -43,6 +43,8 @@
     "byots": "^4.8.0-dev.20220707.1.35",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-unicorn": "^43.0.1",
     "lint-staged": "^13.0.3",
     "magic-string": "^0.26.2",
     "micromatch": "^4.0.5",
