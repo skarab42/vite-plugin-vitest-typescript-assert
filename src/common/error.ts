@@ -2,23 +2,30 @@ export enum ErrorCode {
   UNEXPECTED_ERROR,
   TSCONFIG_FILE_NOT_FOUND,
   TSCONFIG_FILE_NOT_READABLE,
-  MULTIPLE_ASSERTION_API_IN_SAME_FILE_NOT_ALLOWED,
+  TSCONFIG_FILE_PARSE_ERROR,
 }
 
 export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.UNEXPECTED_ERROR]: 'Unexpected error: {message}',
   [ErrorCode.TSCONFIG_FILE_NOT_FOUND]: 'TS config file not found. File name: {configName} - Search path: {searchPath}',
   [ErrorCode.TSCONFIG_FILE_NOT_READABLE]: 'TS config file not readable or empty. File path: {filePath}',
-  [ErrorCode.MULTIPLE_ASSERTION_API_IN_SAME_FILE_NOT_ALLOWED]:
-    'The use of multiple type assertion APIs in the same file is not allowed. The APIs detected are [{apiNames}], please review your test.',
+  [ErrorCode.TSCONFIG_FILE_PARSE_ERROR]: 'An error occurred during the parsing of the TS config file. {message}',
 };
 
-export function errorMessage(code: ErrorCode, data?: Record<string, unknown>) {
+export function errorMessage(code: ErrorCode, data?: Record<string, unknown>): string {
   let message = errorMessages[code];
 
   Object.entries(data ?? {}).forEach(([index, value]) => {
     message = message.replace(new RegExp(`{${index}}`, 'g'), String(value));
   });
 
-  return new Error(message);
+  return message;
+}
+
+export function createError(code: ErrorCode, data?: Record<string, unknown>): Error {
+  return new Error(errorMessage(code, data));
+}
+
+export function throwError(code: ErrorCode, data?: Record<string, unknown>): never {
+  throw createError(code, data);
 }

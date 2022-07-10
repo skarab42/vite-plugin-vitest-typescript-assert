@@ -7,6 +7,6 @@ export const diagnosticsHost: ts.FormatDiagnosticsHost = {
   getCanonicalFileName: (fileName: string) => fileName,
 };
 
-export function formatDiagnostics(diagnostics: ts.Diagnostic[]) {
+export function formatDiagnostics(diagnostics: ts.Diagnostic[]): string {
   return ts.formatDiagnostics(diagnostics, diagnosticsHost);
 }

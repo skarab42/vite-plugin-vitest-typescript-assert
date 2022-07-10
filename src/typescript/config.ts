@@ -1,90 +1,59 @@
 import ts from 'byots';
 import path from 'path';
 import { formatDiagnostics } from './diagnostic';
-import { errorMessage, ErrorCode } from '../error';
+import type { TypeScriptConfigOptions } from './types';
+import { createError, ErrorCode } from '../common/error';
 import { getCurrentDirectory, fileExists, readFile } from './util';
 
-export interface TypeScriptConfigOptions {
-  configName?: string;
-  searchPath?: string;
-  compilerOptions?: ts.CompilerOptions;
-}
-
-export function findConfigFile(options: TypeScriptConfigOptions = {}) {
+export function findConfigFile(options: TypeScriptConfigOptions = {}): string {
   const configName = options.configName ?? 'tsconfig.json';
   const searchPath = options.searchPath ?? getCurrentDirectory();
   const filePath = ts.findConfigFile(searchPath, fileExists, configName);
 
-  // TODO: allow fallback to default config with a warning?
   if (!filePath) {
-    return {
-      error: errorMessage(ErrorCode.TSCONFIG_FILE_NOT_FOUND, { searchPath, configName }),
-    };
+    throw createError(ErrorCode.TSCONFIG_FILE_NOT_FOUND, { searchPath, configName });
   }
 
-  return { filePath };
+  return filePath;
 }
 
-export function readConfigFile(filePath: string) {
+export function readConfigFile(filePath: string): string {
   try {
     const jsonText = readFile(filePath);
 
     if (!jsonText) {
-      return {
-        error: errorMessage(ErrorCode.TSCONFIG_FILE_NOT_READABLE, { filePath }),
-      };
+      throw createError(ErrorCode.TSCONFIG_FILE_NOT_READABLE, { filePath });
     }
 
-    return { filePath, jsonText };
+    return jsonText;
   } catch (_err) {
-    return {
-      error: errorMessage(ErrorCode.TSCONFIG_FILE_NOT_READABLE, { filePath }),
-    };
+    throw createError(ErrorCode.TSCONFIG_FILE_NOT_READABLE, { filePath });
   }
 }
 
-export function parseConfigFile(fileName: string, jsonText: string, compilerOptions?: ts.CompilerOptions) {
+export function parseConfigFile(
+  fileName: string,
+  jsonText: string,
+  compilerOptions?: ts.CompilerOptions,
+): ts.ParsedCommandLine {
   const configObject = ts.parseConfigFileTextToJson(fileName, jsonText);
 
   if (configObject.error) {
-    return { error: new Error(formatDiagnostics([configObject.error])) };
+    throw createError(ErrorCode.TSCONFIG_FILE_PARSE_ERROR, { message: formatDiagnostics([configObject.error]) });
   }
 
   const config = ts.parseJsonConfigFileContent(configObject.config, ts.sys, path.dirname(fileName), compilerOptions);
 
   if (config.errors.length > 0) {
-    return { error: new Error(formatDiagnostics(config.errors)) };
+    throw createError(ErrorCode.TSCONFIG_FILE_PARSE_ERROR, { message: formatDiagnostics(config.errors) });
   }
 
-  return { fileName, config };
+  return config;
 }
 
-export function loadConfig(options?: TypeScriptConfigOptions) {
-  try {
-    const configFile = findConfigFile(options);
+export function loadConfig(options?: TypeScriptConfigOptions): ts.ParsedCommandLine {
+  const configFilePath = findConfigFile(options);
+  const configFileContent = readConfigFile(configFilePath);
 
-    if (configFile.error) {
-      throw configFile.error;
-    }
-
-    const configFileContent = readConfigFile(configFile.filePath);
-
-    if (configFileContent.error) {
-      throw configFileContent.error;
-    }
-
-    const parsedConfig = parseConfigFile(
-      configFileContent.filePath,
-      configFileContent.jsonText,
-      options?.compilerOptions,
-    );
-
-    if (parsedConfig.error) {
-      throw parsedConfig.error;
-    }
-
-    return { config: parsedConfig.config };
-  } catch (error) {
-    return { error: error as Error };
-  }
+  return parseConfigFile(configFilePath, configFileContent, options?.compilerOptions);
 }

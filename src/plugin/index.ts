@@ -1,16 +1,8 @@
-import type { Plugin } from 'vite';
+import { fileNameMatch } from './util';
 import { transform } from './transform';
-import { fileNameMatch, type IncludeExclude } from '../util';
-import { type TypeScriptConfigOptions, loadConfig } from '../typescript/config';
-
-export type Reporter = 'type-error' | 'type-assertion';
-
-export interface PluginOptions {
-  report?: Reporter[];
-  include?: IncludeExclude['include'];
-  exclude?: IncludeExclude['exclude'];
-  typescript?: TypeScriptConfigOptions;
-}
+import type { PluginOptions } from './types';
+import { loadConfig } from '../typescript/config';
+import type { Plugin, TransformResult } from 'vite';
 
 const defaultOptions: PluginOptions = {
   report: ['type-error', 'type-assertion'],
@@ -24,19 +16,15 @@ export function vitestTypescriptAssertPlugin(options: PluginOptions = {}): Plugi
 
   const tsconfig = loadConfig(typescript);
 
-  if (tsconfig.error) {
-    throw tsconfig.error;
-  }
-
   return {
     name: 'vitest:typescript-assert',
     enforce: 'pre',
-    transform(code, fileName) {
+    transform(code, fileName): TransformResult {
       if (!fileNameMatch(fileName, { include, exclude })) {
-        return;
+        return { code, map: null };
       }
 
-      return transform({ code, fileName, report, typescript: { config: tsconfig.config, options: typescript } });
+      return transform({ code, fileName, report, typescript: { config: tsconfig, options: typescript } });
     },
   };
 }

@@ -1,18 +1,19 @@
 import ts from 'byots';
-import { ErrorCode, errorMessage } from '../error';
+import { createError, ErrorCode } from '../common/error';
+import type { CompilerSettings, Compiler } from './types';
 
-export function createProgram({ fileName, config }: { fileName: string; config: ts.ParsedCommandLine }) {
+export function createBuilder({ fileName, config }: CompilerSettings): Compiler {
   const compilerOptions = { ...ts.getDefaultCompilerOptions(), ...config.options };
   const program = ts.createProgram([fileName], compilerOptions);
   const diagnostics = ts.getPreEmitDiagnostics(program);
   const sourceFile = program.getSourceFile(fileName);
-  const checker = program.getTypeChecker();
+  const typeChecker = program.getTypeChecker();
 
   if (!sourceFile) {
-    throw errorMessage(ErrorCode.UNEXPECTED_ERROR, {
+    throw createError(ErrorCode.UNEXPECTED_ERROR, {
       message: `The source file is unreachable. File path: ${fileName})`,
     });
   }
 
-  return { compilerOptions, program, diagnostics, sourceFile, checker };
+  return { fileName, compilerOptions, program, diagnostics, sourceFile, typeChecker };
 }
