@@ -2,7 +2,7 @@ import ts from 'byots';
 import { createError, ErrorCode } from '../common/error';
 import type { CompilerSettings, Compiler } from './types';
 
-export function createBuilder({ fileName, config }: CompilerSettings): Compiler {
+export function createCompiler({ fileName, config }: CompilerSettings): Compiler {
   const compilerOptions = { ...ts.getDefaultCompilerOptions(), ...config.options };
   const program = ts.createProgram([fileName], compilerOptions);
   const diagnostics = ts.getPreEmitDiagnostics(program);

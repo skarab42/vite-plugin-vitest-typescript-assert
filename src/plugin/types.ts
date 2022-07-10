@@ -24,3 +24,16 @@ export interface TransformSettings {
     options: TypeScriptConfigOptions;
   };
 }
+
+export interface ErrorObject {
+  message: string;
+  file: string;
+  line: number;
+  column: number;
+}
+
+export interface Assertion {
+  apiName: string;
+  functionName: string;
+  node: ts.Node;
+}
