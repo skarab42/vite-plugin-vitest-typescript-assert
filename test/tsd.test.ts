@@ -13,9 +13,13 @@
 //     // expect("life").toBe(42);
 //   });
 // });
-import { expectType, expectType as assertType } from '../src/api/tsd';
-import * as tsd from '../src/api/tsd';
 
-expectType<string>('hello');
-assertType<string>('hello');
-tsd.expectType<string>('hello');
+import { test } from 'vitest';
+import * as tsd from '../src/api/tsd';
+import { expectType, expectType as assertType } from '../src/api/tsd';
+
+test('test-1', () => {
+  expectType<string>('hello');
+  assertType<string>('hello');
+  tsd.expectType<string>('hello');
+});

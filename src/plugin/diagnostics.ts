@@ -80,3 +80,14 @@ throw (() => {
 })()
 `;
 }
+
+export function createAssertionDiagnostic(message: string, file: ts.SourceFile, start: number): ts.Diagnostic {
+  return {
+    category: ts.DiagnosticCategory.Error,
+    code: -42,
+    file,
+    start,
+    length: undefined,
+    messageText: message,
+  };
+}

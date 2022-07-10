@@ -32,8 +32,10 @@ export interface ErrorObject {
   column: number;
 }
 
+export type APIName = 'tsd' | 'tssert';
+
 export interface Assertion {
-  apiName: string;
+  apiName: APIName;
   functionName: string;
   node: ts.Node;
 }

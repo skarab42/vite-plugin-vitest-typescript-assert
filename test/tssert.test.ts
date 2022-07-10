@@ -14,13 +14,16 @@
 //   });
 // });
 
-import { expectType, expectType as assertType } from '../src/api/tssert';
+import { test } from 'vitest';
 import * as tssert from '../src/api/tssert';
+import { expectType, expectType as assertType } from '../src/api/tssert';
 
-expectType<string>('hello');
-assertType<string>('hello');
-tssert.expectType<string>('hello');
+test('test-1', () => {
+  expectType<string>('hello');
+  assertType<string>('hello');
+  tssert.expectType<string>('hello');
 
-expectType<string>().assignableTo('hello');
-expectType<number>().not.assignableTo('hello');
-tssert.expectType<number>().not.assignableTo('hello');
+  expectType<string>().assignableTo('hello');
+  expectType<number>().not.assignableTo('hello');
+  tssert.expectType<number>().not.assignableTo('hello');
+});

@@ -1,11 +1,13 @@
 import ts from 'byots';
+import { assert } from './assert';
 import MagicString from 'magic-string';
 import type { TransformResult } from 'vite';
 import { reportDiagnostics } from './diagnostics';
 import type { Compiler } from '../typescript/types';
 import { API_PROPERTY_KEY } from '../common/internal';
 import { createCompiler } from '../typescript/compiler';
-import type { Assertion, TransformSettings } from './types';
+import { createError, ErrorCode } from '../common/error';
+import type { APIName, Assertion, TransformSettings } from './types';
 
 export function transform({ code, fileName, report, typescript }: TransformSettings): TransformResult {
   const compiler = createCompiler({ config: typescript.config, fileName });
@@ -39,19 +41,15 @@ function getAssertions(sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker): 
       const expressionType = typeChecker.getTypeAtLocation(expression);
       const assertionProperty = expressionType.getProperty(API_PROPERTY_KEY);
 
-      if (!assertionProperty) {
-        return;
+      if (assertionProperty) {
+        const assertionPropertyType = typeChecker.getTypeOfSymbolAtLocation(assertionProperty, expression);
+        const assertionPropertyValue = typeChecker.typeToString(assertionPropertyType).slice(1, -1);
+        const [apiName, functionName] = assertionPropertyValue.split(':');
+
+        if (apiName && functionName) {
+          assertions.push({ apiName: apiName as APIName, functionName, node });
+        }
       }
-
-      const assertionPropertyType = typeChecker.getTypeOfSymbolAtLocation(assertionProperty, expression);
-      const assertionPropertyValue = typeChecker.typeToString(assertionPropertyType).slice(1, -1);
-      const [apiName, functionName] = assertionPropertyValue.split(':');
-
-      if (!apiName || !functionName) {
-        return;
-      }
-
-      assertions.push({ apiName, functionName, node });
     }
 
     node.forEachChild(visit);
@@ -65,8 +63,21 @@ function getAssertions(sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker): 
 function processAssertions(assertions: Assertion[], compiler: Compiler): ts.Diagnostic[] {
   const diagnostics: ts.Diagnostic[] = [];
 
-  // eslint-disable-next-line no-console
-  console.log({ assertions, compiler });
+  assertions.forEach((assertion) => {
+    const api = assert.get(assertion.apiName);
+
+    if (!api) {
+      throw createError(ErrorCode.UNEXPECTED_ERROR, {
+        message: `The ${assertion.apiName} API could not be loaded.`,
+      });
+    }
+
+    const diagnostic = api[assertion.functionName as keyof typeof api](assertion, compiler);
+
+    if (diagnostic) {
+      diagnostics.push(diagnostic);
+    }
+  });
 
   return diagnostics;
 }
