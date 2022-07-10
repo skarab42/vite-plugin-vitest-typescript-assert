@@ -13,3 +13,14 @@ export type AssertionFunction = (
   node: ts.CallExpression,
   checker: ts.TypeChecker,
 ) => AssertionResult;
+
+export interface AssertionType {
+  node: ts.CallExpression;
+  type: ts.Type | undefined;
+  position: number;
+}
+
+export interface AssertionTypes {
+  source: AssertionType;
+  target: AssertionType;
+}

@@ -1,19 +1,8 @@
 import type ts from 'byots';
+import type { AssertionTypes } from '../types';
 import { getMiddle } from '../../../typescript/util';
 
-export interface AssertionType {
-  node: ts.CallExpression;
-  type: ts.Type | undefined;
-  position: number;
-}
-
-export function getTypes(
-  node: ts.CallExpression,
-  checker: ts.TypeChecker,
-): {
-  source: AssertionType;
-  target: AssertionType;
-} {
+export function getTypes(node: ts.CallExpression, checker: ts.TypeChecker): AssertionTypes {
   let targetType = undefined;
   let sourceType = undefined;
 

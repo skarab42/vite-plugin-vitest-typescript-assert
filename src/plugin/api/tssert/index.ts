@@ -1,6 +1,8 @@
 import type ts from 'byots';
-import { createAssertionDiagnostic } from '../../util';
+import * as assert from './assert';
 import type { ProcessCallExpressionReturn } from '../types';
+
+const names = new Map(Object.entries(assert));
 
 export function processCallExpression(
   sourceFile: ts.SourceFile,
@@ -8,15 +10,18 @@ export function processCallExpression(
   checker: ts.TypeChecker,
 ): ProcessCallExpressionReturn {
   let diagnostic: ts.Diagnostic | undefined = undefined;
+  let assertFunction;
 
   const identifier = node.expression.getText();
 
-  // eslint-disable-next-line no-console
-  console.log('> tssert', { identifier, checker, sourceFile });
+  if (identifier.startsWith('expectType')) {
+    const assertionName = identifier.split('.').pop();
+    assertFunction = assertionName && names.get(assertionName);
 
-  if (identifier.length < 0) {
-    diagnostic = createAssertionDiagnostic(`No implemented....`, sourceFile, 0);
+    if (assertFunction) {
+      diagnostic = assertFunction(sourceFile, node, checker);
+    }
   }
 
-  return { success: !diagnostic, skipped: true, diagnostic };
+  return { success: !diagnostic, skipped: !assertFunction, diagnostic };
 }

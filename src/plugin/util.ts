@@ -60,9 +60,11 @@ export function reportDiagnostics(diagnostics: readonly ts.Diagnostic[], newCode
   diagnostics.forEach(({ messageText, start, file }) => {
     if (file) {
       const startPosition = start ?? -1;
-      const message = ts.flattenDiagnosticMessageText(messageText, newLine);
+      let message = ts.flattenDiagnosticMessageText(messageText, newLine);
       const { line, character } = ts.getLineAndCharacterOfPosition(file, startPosition);
       const token = searchTestWrapperFromPosition(file, startPosition);
+
+      message = message.replace(/"/g, '\\"');
 
       if (token) {
         const position = token.handler.getEnd() - 1;
