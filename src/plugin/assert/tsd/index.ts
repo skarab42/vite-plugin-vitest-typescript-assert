@@ -71,8 +71,23 @@ export function expectType({ node }: Assertion, { sourceFile, typeChecker }: Com
   return;
 }
 
-export function expectNotType(assertion: Assertion, compiler: Compiler): ts.Diagnostic | undefined {
-  return createAssertionDiagnostic('Not yet implemented.', compiler.sourceFile, assertion.node.getStart());
+export function expectNotType({ node }: Assertion, { sourceFile, typeChecker }: Compiler): ts.Diagnostic | undefined {
+  if (!node.typeArguments?.[0]) {
+    return missingGeneric(node, sourceFile);
+  }
+
+  if (!node.arguments[0]) {
+    return missingArgument(node, sourceFile);
+  }
+
+  const expectedType = typeChecker.getTypeFromTypeNode(node.typeArguments[0]);
+  const argumentType = typeChecker.getTypeAtLocation(node.arguments[0]);
+
+  if (!typeChecker.isTypeIdenticalTo(expectedType, argumentType)) {
+    return typeError(ErrorCode.ASSERT_TYPE_IDENTICAL, typeChecker, expectedType, argumentType, sourceFile, node);
+  }
+
+  return;
 }
 
 export function expectAssignable(assertion: Assertion, compiler: Compiler): ts.Diagnostic | undefined {

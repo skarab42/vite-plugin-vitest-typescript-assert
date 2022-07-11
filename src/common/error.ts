@@ -10,6 +10,7 @@ export enum ErrorCode {
   ASSERT_TYPE_NOT_ASSIGNABLE,
   ASSERT_TYPE_TOO_WIDE,
   ASSERT_TYPE_NOT_IDENTICAL,
+  ASSERT_TYPE_IDENTICAL,
 }
 
 export const errorMessages: Record<ErrorCode, string> = {
@@ -23,7 +24,8 @@ export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.ASSERT_MISSING_ARGUMENT]: 'Missing argument at position {position}',
   [ErrorCode.ASSERT_TYPE_NOT_ASSIGNABLE]: "Type '{expected}' is not assignable to type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_TOO_WIDE]: "Type '{expected}' is declared too wide for argument type '{argument}'.",
-  [ErrorCode.ASSERT_TYPE_NOT_IDENTICAL]: "Type '${expected}' is not identical to argument type '${argument}'.",
+  [ErrorCode.ASSERT_TYPE_NOT_IDENTICAL]: "Type '{expected}' is not identical to argument type '{argument}'.",
+  [ErrorCode.ASSERT_TYPE_IDENTICAL]: "Type '{expected}' is identical to argument type '{argument}'.",
 };
 
 export function errorMessage(code: ErrorCode, data?: Record<string, unknown>): string {

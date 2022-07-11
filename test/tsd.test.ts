@@ -20,6 +20,12 @@ import { expectType, expectType as assertType } from '../src/api/tsd';
 
 test('test-1', () => {
   expectType<string>('hello');
+});
+
+test('test-2', () => {
   assertType<string>('hello');
-  tsd.expectType<string>('hello');
+});
+
+test('test-3', () => {
+  tsd.expectNotType<string>('hello');
 });
