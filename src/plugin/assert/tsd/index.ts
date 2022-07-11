@@ -43,7 +43,7 @@ function typeError(
   );
 }
 
-// https://github.com/SamVerschueren/tsd/blob/main/source/lib/assertions/handlers/identicality.ts#L12
+// https://github.dev/SamVerschueren/tsd/blob/e4a398c1b47a4d2f914446b662840e2be5994997/source/lib/assertions/handlers/identicality.ts#L12
 export function expectType({ node }: Assertion, { sourceFile, typeChecker }: Compiler): ts.Diagnostic | undefined {
   if (!node.typeArguments?.[0]) {
     return missingGeneric(node, sourceFile);
@@ -71,6 +71,7 @@ export function expectType({ node }: Assertion, { sourceFile, typeChecker }: Com
   return;
 }
 
+// https://github.dev/SamVerschueren/tsd/blob/e4a398c1b47a4d2f914446b662840e2be5994997/source/lib/assertions/handlers/identicality.ts#L61
 export function expectNotType({ node }: Assertion, { sourceFile, typeChecker }: Compiler): ts.Diagnostic | undefined {
   if (!node.typeArguments?.[0]) {
     return missingGeneric(node, sourceFile);
@@ -90,12 +91,50 @@ export function expectNotType({ node }: Assertion, { sourceFile, typeChecker }: 
   return;
 }
 
-export function expectAssignable(assertion: Assertion, compiler: Compiler): ts.Diagnostic | undefined {
-  return createAssertionDiagnostic('Not yet implemented.', compiler.sourceFile, assertion.node.getStart());
+// In tsd this is handled directlly by TypeScript.
+export function expectAssignable(
+  { node }: Assertion,
+  { sourceFile, typeChecker }: Compiler,
+): ts.Diagnostic | undefined {
+  if (!node.typeArguments?.[0]) {
+    return missingGeneric(node, sourceFile);
+  }
+
+  if (!node.arguments[0]) {
+    return missingArgument(node, sourceFile);
+  }
+
+  const expectedType = typeChecker.getTypeFromTypeNode(node.typeArguments[0]);
+  const argumentType = typeChecker.getTypeAtLocation(node.arguments[0]);
+
+  if (!typeChecker.isTypeAssignableTo(argumentType, expectedType)) {
+    return typeError(ErrorCode.ASSERT_TYPE_NOT_ASSIGNABLE, typeChecker, expectedType, argumentType, sourceFile, node);
+  }
+
+  return;
 }
 
-export function expectNotAssignable(assertion: Assertion, compiler: Compiler): ts.Diagnostic | undefined {
-  return createAssertionDiagnostic('Not yet implemented.', compiler.sourceFile, assertion.node.getStart());
+// https://github.dev/SamVerschueren/tsd/blob/e4a398c1b47a4d2f914446b662840e2be5994997/source/lib/assertions/handlers/assignability.ts#L12-L13
+export function expectNotAssignable(
+  { node }: Assertion,
+  { sourceFile, typeChecker }: Compiler,
+): ts.Diagnostic | undefined {
+  if (!node.typeArguments?.[0]) {
+    return missingGeneric(node, sourceFile);
+  }
+
+  if (!node.arguments[0]) {
+    return missingArgument(node, sourceFile);
+  }
+
+  const expectedType = typeChecker.getTypeFromTypeNode(node.typeArguments[0]);
+  const argumentType = typeChecker.getTypeAtLocation(node.arguments[0]);
+
+  if (typeChecker.isTypeAssignableTo(argumentType, expectedType)) {
+    return typeError(ErrorCode.ASSERT_TYPE_ASSIGNABLE, typeChecker, expectedType, argumentType, sourceFile, node);
+  }
+
+  return;
 }
 
 export function expectError(assertion: Assertion, compiler: Compiler): ts.Diagnostic | undefined {
