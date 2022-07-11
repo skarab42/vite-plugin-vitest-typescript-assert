@@ -1,4 +1,4 @@
-import ts from 'byots';
+import ts from 'unleashed-typescript';
 
 export const newLine = '\n';
 

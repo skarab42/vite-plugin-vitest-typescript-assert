@@ -1,4 +1,4 @@
-import ts from 'byots';
+import ts from 'unleashed-typescript';
 import { assert } from './assert';
 import MagicString from 'magic-string';
 import type { TransformResult } from 'vite';

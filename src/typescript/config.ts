@@ -1,4 +1,4 @@
-import ts from 'byots';
+import ts from 'unleashed-typescript';
 import path from 'path';
 import { formatDiagnostics } from './diagnostic';
 import type { TypeScriptConfigOptions } from './types';

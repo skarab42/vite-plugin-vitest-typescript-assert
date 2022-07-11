@@ -1,4 +1,4 @@
-import type ts from 'byots';
+import type ts from 'unleashed-typescript';
 
 export interface CompilerSettings {
   fileName: string;

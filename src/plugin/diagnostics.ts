@@ -1,4 +1,4 @@
-import ts from 'byots';
+import ts from 'unleashed-typescript';
 import type { ErrorObject } from './types';
 import type MagicString from 'magic-string';
 import { newLine } from '../typescript/util';

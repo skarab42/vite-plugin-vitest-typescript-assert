@@ -1,4 +1,4 @@
-import type ts from 'byots';
+import type ts from 'unleashed-typescript';
 import type { TypeScriptConfigOptions } from '../typescript/types';
 
 export interface IncludeExclude {
@@ -37,5 +37,5 @@ export type APIName = 'tsd' | 'tssert';
 export interface Assertion {
   apiName: APIName;
   functionName: string;
-  node: ts.Node;
+  node: ts.CallExpression;
 }

@@ -1,4 +1,4 @@
-import type ts from 'byots';
+import type ts from 'unleashed-typescript';
 import type { Assertion } from '../../types';
 import type { Compiler } from '../../../typescript/types';
 import { createAssertionDiagnostic } from '../../diagnostics';

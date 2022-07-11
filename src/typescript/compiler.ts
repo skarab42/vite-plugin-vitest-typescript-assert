@@ -1,4 +1,4 @@
-import ts from 'byots';
+import ts from 'unleashed-typescript';
 import { createError, ErrorCode } from '../common/error';
 import type { CompilerSettings, Compiler } from './types';
 
