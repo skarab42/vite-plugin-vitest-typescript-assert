@@ -44,6 +44,10 @@ test('test-6', () => {
   tsd.expectNotDeprecated(UnicornClass);
 });
 
+test('test-7', () => {
+  tsd.printType(prout);
+});
+
 /**
  * @deprecated
  */
@@ -62,3 +66,12 @@ export interface Options {
   readonly separator: string;
   readonly delimiter: string;
 }
+
+export const prout = {
+  hello: 'world',
+  life: 42,
+  data: {
+    id: 385643984,
+    items: [1, 2, 3],
+  },
+};

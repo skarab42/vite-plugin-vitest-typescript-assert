@@ -72,12 +72,6 @@ export function hasDeprecatedTag(argument: ts.Expression, typeChecker: ts.TypeCh
 }
 
 export function expressionToString(typeChecker: ts.TypeChecker, expression: ts.Expression): string | undefined {
-  if (ts.isTypeNode(expression)) {
-    const type = typeChecker.getTypeAtLocation(expression);
-
-    return typeChecker.typeToString(type);
-  }
-
   if (ts.isCallLikeExpression(expression)) {
     const signature = typeChecker.getResolvedSignature(expression);
 
