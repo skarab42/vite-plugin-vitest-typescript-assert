@@ -13,10 +13,6 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
   const compiler = createCompiler({ config: typescript.config, fileName });
   const newCode = new MagicString(code);
 
-  if (report.includes('type-error')) {
-    reportDiagnostics(compiler.diagnostics, newCode, fileName);
-  }
-
   if (report.includes('type-assertion')) {
     const assertions = getAssertions(compiler.sourceFile, compiler.typeChecker);
     const diagnostics = processAssertions(assertions, compiler);
@@ -24,6 +20,10 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
     if (diagnostics.length) {
       reportDiagnostics(diagnostics, newCode, fileName);
     }
+  }
+
+  if (report.includes('type-error')) {
+    reportDiagnostics(compiler.diagnostics, newCode, fileName);
   }
 
   return {

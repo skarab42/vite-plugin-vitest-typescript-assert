@@ -29,3 +29,12 @@ test('test-2', () => {
 test('test-3', () => {
   tsd.expectNotType<string>('hello');
 });
+
+test('test-4', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  tsd.expectError(42 === 'life');
+});
+
+test('test-5', () => {
+  tsd.expectError(true);
+});

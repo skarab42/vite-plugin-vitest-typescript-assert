@@ -12,6 +12,7 @@ export enum ErrorCode {
   ASSERT_TYPE_NOT_IDENTICAL,
   ASSERT_TYPE_IDENTICAL,
   ASSERT_TYPE_TOO_WIDE,
+  ASSERT_ERROR,
 }
 
 export const errorMessages: Record<ErrorCode, string> = {
@@ -28,6 +29,7 @@ export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.ASSERT_TYPE_NOT_IDENTICAL]: "Type '{expected}' is not identical to argument type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_IDENTICAL]: "Type '{expected}' is identical to argument type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_TOO_WIDE]: "Type '{expected}' is declared too wide for argument type '{argument}'.",
+  [ErrorCode.ASSERT_ERROR]: 'An error is expected.',
 };
 
 export function errorMessage(code: ErrorCode, data?: Record<string, unknown>): string {

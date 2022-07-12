@@ -9,8 +9,8 @@ export interface Compiler {
   program: ts.Program;
   sourceFile: ts.SourceFile;
   typeChecker: ts.TypeChecker;
+  diagnostics: ts.Diagnostic[];
   compilerOptions: ts.CompilerOptions;
-  diagnostics: readonly ts.Diagnostic[];
 }
 
 export interface TypeScriptConfigOptions {
