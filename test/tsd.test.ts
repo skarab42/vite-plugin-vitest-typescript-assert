@@ -38,3 +38,27 @@ test('test-4', () => {
 test('test-5', () => {
   tsd.expectError(true);
 });
+
+test('test-6', () => {
+  tsd.expectDeprecated(UnicornClass);
+  tsd.expectNotDeprecated(UnicornClass);
+});
+
+/**
+ * @deprecated
+ */
+export class UnicornClass {
+  readonly key = '🦄';
+}
+
+export class RainbowClass {
+  readonly key = '🌈';
+}
+
+export interface Options {
+  /**
+   * @deprecated
+   */
+  readonly separator: string;
+  readonly delimiter: string;
+}
