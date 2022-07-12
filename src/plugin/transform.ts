@@ -32,24 +32,36 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
   };
 }
 
+export function getAssertion(node: ts.Node, typeChecker: ts.TypeChecker): Assertion | undefined {
+  if (!ts.isCallExpression(node)) {
+    return undefined;
+  }
+
+  const expression = node.expression;
+  const expressionType = typeChecker.getTypeAtLocation(expression);
+  const assertionProperty = expressionType.getProperty(API_PROPERTY_KEY);
+
+  if (assertionProperty) {
+    const assertionPropertyType = typeChecker.getTypeOfSymbolAtLocation(assertionProperty, expression);
+    const assertionPropertyValue = typeChecker.typeToString(assertionPropertyType).slice(1, -1);
+    const [apiName, functionName] = assertionPropertyValue.split(':');
+
+    if (apiName && functionName) {
+      return { apiName: apiName as APIName, functionName, node };
+    }
+  }
+
+  return undefined;
+}
+
 function getAssertions(sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker): Assertion[] {
   const assertions: Assertion[] = [];
 
   function visit(node: ts.Node): void {
-    if (ts.isCallExpression(node)) {
-      const expression = node.expression;
-      const expressionType = typeChecker.getTypeAtLocation(expression);
-      const assertionProperty = expressionType.getProperty(API_PROPERTY_KEY);
+    const assertion = getAssertion(node, typeChecker);
 
-      if (assertionProperty) {
-        const assertionPropertyType = typeChecker.getTypeOfSymbolAtLocation(assertionProperty, expression);
-        const assertionPropertyValue = typeChecker.typeToString(assertionPropertyType).slice(1, -1);
-        const [apiName, functionName] = assertionPropertyValue.split(':');
-
-        if (apiName && functionName) {
-          assertions.push({ apiName: apiName as APIName, functionName, node });
-        }
-      }
+    if (assertion) {
+      assertions.push(assertion);
     }
 
     node.forEachChild(visit);
