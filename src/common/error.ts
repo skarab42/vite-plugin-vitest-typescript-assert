@@ -7,6 +7,10 @@ export enum ErrorCode {
 
   ASSERT_MISSING_GENERIC,
   ASSERT_MISSING_ARGUMENT,
+  ASSERT_MISSING_METHOD,
+  ASSERT_MISSING_TYPE_OR_VALUE,
+  ASSERT_MIXED_TYPE_AND_VALUE,
+
   ASSERT_TYPE_NOT_ASSIGNABLE,
   ASSERT_TYPE_ASSIGNABLE,
   ASSERT_TYPE_NOT_IDENTICAL,
@@ -24,8 +28,13 @@ export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.TSCONFIG_FILE_NOT_READABLE]: 'TS config file not readable or empty. File path: {filePath}',
   [ErrorCode.TSCONFIG_FILE_PARSE_ERROR]: 'An error occurred during the parsing of the TS config file. {message}',
 
-  [ErrorCode.ASSERT_MISSING_GENERIC]: 'Missing generic at position {position}',
-  [ErrorCode.ASSERT_MISSING_ARGUMENT]: 'Missing argument at position {position}',
+  [ErrorCode.ASSERT_MISSING_GENERIC]: 'Missing generic at position {position}.',
+  [ErrorCode.ASSERT_MISSING_ARGUMENT]: 'Missing argument at position {position}.',
+  [ErrorCode.ASSERT_MISSING_METHOD]:
+    "Missing right side methods, expected something like 'expectType('hello').assignableTo<string>()'.",
+  [ErrorCode.ASSERT_MISSING_TYPE_OR_VALUE]: 'A type or value is missing.',
+  [ErrorCode.ASSERT_MIXED_TYPE_AND_VALUE]: 'Do not define a type and value at the same time.',
+
   [ErrorCode.ASSERT_TYPE_NOT_ASSIGNABLE]: "Type '{expected}' is not assignable to type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_ASSIGNABLE]: "Type '{expected}' is assignable to type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_NOT_IDENTICAL]: "Type '{expected}' is not identical to argument type '{argument}'.",
