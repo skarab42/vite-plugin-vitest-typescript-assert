@@ -1,19 +1,3 @@
-// import { test, expect, describe } from 'vitest';
-// import { expectType, expectType as pouet, expectNotType } from '../src/api/tsd';
-// import * as tsd from '../src/api/tsd';
-
-// describe('describe-1', () => {
-//   test('test-1', () => {
-//     pouet<string>('hello');
-//     expectType<string>('hello');
-//     expectNotType<number>('hello');
-//     tsd.expectType<string>('hello');
-
-//     expect(42).toBe(42);
-//     // expect("life").toBe(42);
-//   });
-// });
-
 import { test } from 'vitest';
 import * as tsd from '../src/api/tsd';
 import { expectType, expectType as assertType } from '../src/api/tsd';
@@ -47,6 +31,26 @@ test('test-6', () => {
 test('test-7', () => {
   tsd.printType(prout);
 });
+
+test('test-8', () => {
+  tsd.expectType<typeof prout>({
+    hello: 'you',
+    life: 42,
+    data: {
+      id: '385643984',
+      items: [1, 2, 3],
+    },
+  });
+});
+
+// test('test-9', () => {
+//   const plop = 42;
+//   tsd.expectError(true);
+// });
+
+// test('test-10', () => {
+//   const plop = 42;
+// });
 
 /**
  * @deprecated
