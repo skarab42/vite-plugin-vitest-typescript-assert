@@ -38,3 +38,8 @@ test('test-7', () => {
 test('test-8', () => {
   expectType('hello').assignableTo();
 });
+
+test('test-9', () => {
+  expectType('hello').identicalTo('hello');
+  expectType('hello').not.identicalTo('hello');
+});
