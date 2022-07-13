@@ -88,7 +88,7 @@ export function getTag(tagName: string, argument: ts.Node, typeChecker: ts.TypeC
     return;
   }
 
-  return tags.find((tag) => tag.name === tagName);
+  return tags.find((tag: ts.JSDocTagInfo) => tag.name === tagName);
 }
 
 export function hasDeprecatedTag(argument: ts.Node, typeChecker: ts.TypeChecker): boolean {
