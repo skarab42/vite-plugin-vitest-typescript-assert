@@ -1,4 +1,4 @@
-<h1 align="center">TypeScript assertion plugin for vitest.</h1>
+<h1 align="center">TypeScript type assertion plugin for vitest.</h1>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/62928763/178766707-5dd3b80f-b20f-474b-b8d4-623c00b5eac1.PNG" alt="vite-plugin-vitest-typescript-assert : TypeScript assertion (test) plugin for vitest">

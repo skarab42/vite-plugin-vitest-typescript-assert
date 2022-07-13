@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-vitest-typescript-assert",
   "version": "0.0.0-development",
-  "description": "🔥 Micro TypeScript assertion (test) library.",
+  "description": "🔥 TypeScript type assertion plugin for vitest.",
   "author": {
     "name": "skarab42",
     "email": "contact@skarab42.dev"
