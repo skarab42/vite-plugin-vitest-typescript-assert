@@ -22,13 +22,21 @@ export function toThrowError({ node }: Assertion, compiler: Compiler): ts.Diagno
   }
 
   if (!compiler.diagnostics.length) {
-    return createAssertionDiagnostic(errorMessage(ErrorCode.ASSERT_ERROR), compiler.sourceFile, expected.position);
+    return createAssertionDiagnostic(
+      errorMessage(ErrorCode.ASSERT_ERROR),
+      compiler.sourceFile,
+      Number(expected.position),
+    );
   }
 
   const diagnostic = compiler.diagnostics.find((diagnostic) => isArgumentInDiagnostic(expected.argument, diagnostic));
 
   if (!diagnostic) {
-    return createAssertionDiagnostic(errorMessage(ErrorCode.ASSERT_ERROR), compiler.sourceFile, expected.position);
+    return createAssertionDiagnostic(
+      errorMessage(ErrorCode.ASSERT_ERROR),
+      compiler.sourceFile,
+      Number(expected.position),
+    );
   }
 
   if (argument.argument) {
@@ -39,7 +47,7 @@ export function toThrowError({ node }: Assertion, compiler: Compiler): ts.Diagno
         return createAssertionDiagnostic(
           errorMessage(ErrorCode.ASSERT_ERROR_MESSAGE, { expected: argument.argument.text, received: message }),
           compiler.sourceFile,
-          expected.position,
+          Number(expected.position),
         );
       }
     } else if (ts.isNumericLiteral(argument.argument)) {
@@ -47,7 +55,7 @@ export function toThrowError({ node }: Assertion, compiler: Compiler): ts.Diagno
         return createAssertionDiagnostic(
           errorMessage(ErrorCode.ASSERT_ERROR_CODE, { expected: argument.argument.text, received: diagnostic.code }),
           compiler.sourceFile,
-          expected.position,
+          Number(expected.position),
         );
       }
     } else {
