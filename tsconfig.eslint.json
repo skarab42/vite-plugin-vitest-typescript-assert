@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.default.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "commonjs",
+    "target": "es2020",
+    "lib": ["es2020"]
+  },
+  "include": [".eslintrc.cjs"]
+}
