@@ -1,24 +1,83 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { API_PROPERTY_KEY } from '../../common/internal';
 
-// TODO: add docblock !!!
-export function expectType<ExpectedType>(_value: ExpectedType) {}
-export function expectNotType<ExpectedType>(_value: any) {}
-export function expectAssignable<ExpectedType>(_value: ExpectedType) {}
-export function expectNotAssignable<ExpectedType>(_value: any) {}
-export function expectError<ExpectedType = any>(_value: ExpectedType) {}
-export function expectDeprecated(_expression: any) {}
-export function expectNotDeprecated(_expression: any) {}
-export function printType(_expression: any) {}
+/**
+ * Test that ExpectedType is equal to value type.
+ *
+ * @apiName tsd
+ * @functionName expectType
+ */
+export function expectType<ExpectedType>(_value: ExpectedType): undefined {
+  return;
+}
 
-expectType[API_PROPERTY_KEY] = 'tsd:expectType' as const;
-expectNotType[API_PROPERTY_KEY] = 'tsd:expectNotType' as const;
-expectAssignable[API_PROPERTY_KEY] = 'tsd:expectAssignable' as const;
-expectNotAssignable[API_PROPERTY_KEY] = 'tsd:expectNotAssignable' as const;
-expectError[API_PROPERTY_KEY] = 'tsd:expectError' as const;
-expectDeprecated[API_PROPERTY_KEY] = 'tsd:expectDeprecated' as const;
-expectNotDeprecated[API_PROPERTY_KEY] = 'tsd:expectNotDeprecated' as const;
-printType[API_PROPERTY_KEY] = 'tsd:printType' as const;
+/**
+ * Test that ExpectedType is not equal to value type.
+ *
+ * @apiName tsd
+ * @functionName expectNotType
+ */
+export function expectNotType<ExpectedType>(_value: ExpectedType): undefined {
+  return;
+}
+
+/**
+ * Test that ExpectedType is assignable to value type.
+ *
+ * @apiName tsd
+ * @functionName expectAssignable
+ */
+export function expectAssignable<ExpectedType>(_value: ExpectedType): undefined {
+  return;
+}
+
+/**
+ * Test that ExpectedType is not assignable to value type.
+ *
+ * @apiName tsd
+ * @functionName expectNotAssignable
+ */
+export function expectNotAssignable<ExpectedType>(_value: ExpectedType): undefined {
+  return;
+}
+
+/**
+ * Test that ExpectedType throw an type error.
+ *
+ * @apiName tsd
+ * @functionName expectError
+ */
+export function expectError<ExpectedType>(_value: ExpectedType): undefined {
+  return;
+}
+
+/**
+ * Test that ExpectedType is marked as deprecated.
+ *
+ * @apiName tsd
+ * @functionName expectDeprecated
+ */
+export function expectDeprecated(_expression: any): undefined {
+  return;
+}
+
+/**
+ * Test that ExpectedType is not marked as deprecated.
+ *
+ * @apiName tsd
+ * @functionName expectNotDeprecated
+ */
+export function expectNotDeprecated(_expression: any): undefined {
+  return;
+}
+
+/**
+ * Print the type in a diagnostic.
+ *
+ * @apiName tsd
+ * @functionName printType
+ */
+export function printType(_expression: any): undefined {
+  return;
+}

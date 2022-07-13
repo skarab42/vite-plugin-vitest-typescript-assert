@@ -1,42 +1,106 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { API_PROPERTY_KEY } from '../../common/internal';
 
-// TODO: add docblock !!!
-function assignableTo<TargetType>(_target?: unknown) {}
-function notAssignableTo<TargetType>(_target?: unknown) {}
+/**
+ * Test that TargetType is assignable to SourceType.
+ *
+ * @apiName tssert
+ * @functionName assignableTo
+ */
+function assignableTo<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-function identicalTo<TargetType>(_target?: unknown) {}
-function notIdenticalTo<TargetType>(_target?: unknown) {}
+/**
+ * Test that TargetType is not assignable to SourceType.
+ *
+ * @apiName tssert
+ * @functionName notAssignableTo
+ */
+function notAssignableTo<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-function subtypeOf<TargetType>(_target?: unknown) {}
-function notSubtypeOf<TargetType>(_target?: unknown) {}
+/**
+ * Test that TargetType is identical to SourceType.
+ *
+ * @apiName tssert
+ * @functionName identicalTo
+ */
+function identicalTo<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-function equalTo<TargetType>(_target?: unknown) {}
+/**
+ * Test that TargetType is not identical to SourceType.
+ *
+ * @apiName tssert
+ * @functionName notIdenticalTo
+ */
+function notIdenticalTo<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-function toBeDeprecated<TargetType>(_target?: unknown) {}
-function notToBeDeprecated<TargetType>(_target?: unknown) {}
+/**
+ * Test that TargetType is subtype of SourceType.
+ *
+ * @apiName tssert
+ * @functionName subtypeOf
+ */
+function subtypeOf<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-function toThrowError<TargetType = undefined>(_target: unknown = undefined) {}
+/**
+ * Test that TargetType is not subtype of to SourceType.
+ *
+ * @apiName tssert
+ * @functionName notSubtypeOf
+ */
+function notSubtypeOf<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-expectType[API_PROPERTY_KEY] = 'tssert:expectType' as const;
+/**
+ * Test that TargetType is equal to SourceType.
+ *
+ * @apiName tssert
+ * @functionName equalTo
+ */
+function equalTo<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
-assignableTo[API_PROPERTY_KEY] = 'tssert:assignableTo' as const;
-notAssignableTo[API_PROPERTY_KEY] = 'tssert:notAssignableTo' as const;
+/**
+ * Test that SourceType is marked as deprecated.
+ *
+ * @apiName tssert
+ * @functionName toBeDeprecated
+ */
+function toBeDeprecated(): undefined {
+  return;
+}
 
-identicalTo[API_PROPERTY_KEY] = 'tssert:identicalTo' as const;
-notIdenticalTo[API_PROPERTY_KEY] = 'tssert:notIdenticalTo' as const;
+/**
+ * Test that SourceType is not marked as deprecated.
+ *
+ * @apiName tssert
+ * @functionName notToBeDeprecated
+ */
+function notToBeDeprecated(): undefined {
+  return;
+}
 
-subtypeOf[API_PROPERTY_KEY] = 'tssert:subtypeOf' as const;
-notSubtypeOf[API_PROPERTY_KEY] = 'tssert:notSubtypeOf' as const;
-
-equalTo[API_PROPERTY_KEY] = 'tssert:equalTo' as const;
-
-toBeDeprecated[API_PROPERTY_KEY] = 'tssert:toBeDeprecated' as const;
-notToBeDeprecated[API_PROPERTY_KEY] = 'tssert:notToBeDeprecated' as const;
-
-toThrowError[API_PROPERTY_KEY] = 'tssert:toThrowError' as const;
+/**
+ * Test that TargetType throw an type error.
+ *
+ * @apiName tssert
+ * @functionName toThrowError
+ */
+function toThrowError<TargetType>(_target?: TargetType): undefined {
+  return;
+}
 
 const api = {
   assignableTo,
@@ -54,7 +118,13 @@ const api = {
   },
 } as const;
 
-// TODO: add docblock !!!
-export function expectType<SourceType>(_source?: unknown) {
+/**
+ * SourceType holder to test with.
+ *
+ * @apiName tssert
+ * @functionName expectType
+ */
+
+export function expectType<SourceType>(_source?: SourceType): typeof api {
   return api;
 }

@@ -1,10 +1,10 @@
-import ts from 'unleashed-typescript';
 import { assert } from './assert';
+import ts from 'unleashed-typescript';
+import { getTag } from './assert/util';
 import MagicString from 'magic-string';
 import type { TransformResult } from 'vite';
 import { reportDiagnostics } from './diagnostics';
 import type { Compiler } from '../typescript/types';
-import { API_PROPERTY_KEY } from '../common/internal';
 import { createCompiler } from '../typescript/compiler';
 import { createError, ErrorCode } from '../common/error';
 import type { APIName, Assertion, TransformSettings } from './types';
@@ -34,24 +34,22 @@ export function transform({ code, fileName, report, typescript }: TransformSetti
 
 export function getAssertion(node: ts.Node, typeChecker: ts.TypeChecker): Assertion | undefined {
   if (!ts.isCallExpression(node)) {
-    return undefined;
+    return;
   }
 
-  const expression = node.expression;
-  const expressionType = typeChecker.getTypeAtLocation(expression);
-  const assertionProperty = expressionType.getProperty(API_PROPERTY_KEY);
+  const apiName = getTag('apiName', node, typeChecker);
 
-  if (assertionProperty) {
-    const assertionPropertyType = typeChecker.getTypeOfSymbolAtLocation(assertionProperty, expression);
-    const assertionPropertyValue = typeChecker.typeToString(assertionPropertyType).slice(1, -1);
-    const [apiName, functionName] = assertionPropertyValue.split(':');
-
-    if (apiName && functionName) {
-      return { apiName: apiName as APIName, functionName, node };
-    }
+  if (!apiName || !apiName.text?.[0]) {
+    return;
   }
 
-  return undefined;
+  const functionName = getTag('functionName', node, typeChecker);
+
+  if (!functionName || !functionName.text?.[0]) {
+    return;
+  }
+
+  return { apiName: apiName.text[0].text as APIName, functionName: functionName.text[0].text, node };
 }
 
 function getAssertions(sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker): Assertion[] {

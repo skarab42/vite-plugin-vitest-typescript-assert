@@ -83,7 +83,7 @@ test('test-4', () => {
   expectType(42 === 'life').toThrowError('Prout');
 });
 
-test.only('test-4', () => {
+test('test-4', () => {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   expectType(42 === 'life').toThrowError(42);
 });

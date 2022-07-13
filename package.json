@@ -21,6 +21,30 @@
   "main": "./build/index.js",
   "module": "./build/index.mjs",
   "types": "./build/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./build/index.js",
+      "import": "./build/index.mjs"
+    },
+    "./tsd": {
+      "require": "./build/api/tsd/index.js",
+      "import": "./build/api/tsd/index.mjs"
+    },
+    "./tssert": {
+      "require": "./build/api/tssert/index.js",
+      "import": "./build/api/tssert/index.mjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "tsd": [
+        "./build/api/tsd/index.d.ts"
+      ],
+      "tssert": [
+        "./build/api/tssert/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "build"
   ],

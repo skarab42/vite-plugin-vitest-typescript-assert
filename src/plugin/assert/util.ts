@@ -73,22 +73,26 @@ export function expressionToString(typeChecker: ts.TypeChecker, node: ts.Node): 
   return node.getText();
 }
 
-export function hasDeprecatedTag(argument: ts.Node, typeChecker: ts.TypeChecker): boolean {
+export function getTag(tagName: string, argument: ts.Node, typeChecker: ts.TypeChecker): ts.JSDocTagInfo | undefined {
   const signatureOrSymbol = ts.isCallLikeExpression(argument)
     ? typeChecker.getResolvedSignature(argument)
     : typeChecker.getSymbolAtLocation(argument);
 
   if (!signatureOrSymbol) {
-    return false;
+    return;
   }
 
   const tags = signatureOrSymbol.getJsDocTags();
 
   if (!tags.length) {
-    return false;
+    return;
   }
 
-  return !!tags.find((tag) => tag.name === 'deprecated');
+  return tags.find((tag) => tag.name === tagName);
+}
+
+export function hasDeprecatedTag(argument: ts.Node, typeChecker: ts.TypeChecker): boolean {
+  return !!getTag('deprecated', argument, typeChecker);
 }
 
 export function isArgumentInDiagnostic(argument: ts.Node, diagnostic: ts.Diagnostic): boolean {
