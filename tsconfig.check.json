@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "lib": ["DOM", "ES2020"]
+    "lib": ["ES2020"]
   },
   "include": ["src"]
 }
