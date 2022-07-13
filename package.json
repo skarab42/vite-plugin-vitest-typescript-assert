@@ -84,8 +84,8 @@
     "vitest": "^0.17.0"
   },
   "peerDependencies": {
-    "typescript": "^4.7.4",
-    "vitest": "^0.17.0"
+    "typescript": "*",
+    "vitest": "*"
   },
   "keywords": [
     "typescript",
