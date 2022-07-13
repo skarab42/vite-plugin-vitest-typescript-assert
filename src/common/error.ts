@@ -16,6 +16,9 @@ export enum ErrorCode {
   ASSERT_TYPE_NOT_IDENTICAL,
   ASSERT_TYPE_IDENTICAL,
   ASSERT_TYPE_TOO_WIDE,
+  ASSERT_TYPE_NOT_SUBTYPE,
+  ASSERT_TYPE_SUBTYPE,
+
   ASSERT_ERROR,
   ASSERT_DEPRECATED,
   ASSERT_NOT_DEPRECATED,
@@ -40,6 +43,9 @@ export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.ASSERT_TYPE_NOT_IDENTICAL]: "Type '{expected}' is not identical to argument type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_IDENTICAL]: "Type '{expected}' is identical to argument type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_TOO_WIDE]: "Type '{expected}' is declared too wide for argument type '{argument}'.",
+  [ErrorCode.ASSERT_TYPE_NOT_SUBTYPE]: "Type '{expected}' is not subtype of argument type '{argument}'.",
+  [ErrorCode.ASSERT_TYPE_SUBTYPE]: "Type '{expected}' is subtype of argument type '{argument}'.",
+
   [ErrorCode.ASSERT_ERROR]: 'An error is expected.',
   [ErrorCode.ASSERT_DEPRECATED]: "Expected '{argument}' to be marked as '@deprecated'.",
   [ErrorCode.ASSERT_NOT_DEPRECATED]: "Expected '{argument}' to not be marked as '@deprecated'.",

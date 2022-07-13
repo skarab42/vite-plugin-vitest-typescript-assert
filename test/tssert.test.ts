@@ -43,3 +43,8 @@ test('test-9', () => {
   expectType('hello').identicalTo('hello');
   expectType('hello').not.identicalTo('hello');
 });
+
+test('test-9', () => {
+  expectType<string>().subtypeOf('hello');
+  expectType<string>().not.subtypeOf('hello');
+});

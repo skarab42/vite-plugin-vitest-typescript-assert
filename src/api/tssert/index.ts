@@ -10,6 +10,9 @@ function notAssignableTo<TargetType>(_target?: unknown) {}
 function identicalTo<TargetType>(_target?: unknown) {}
 function notIdenticalTo<TargetType>(_target?: unknown) {}
 
+function subtypeOf<TargetType>(_target?: unknown) {}
+function notSubtypeOf<TargetType>(_target?: unknown) {}
+
 expectType[API_PROPERTY_KEY] = 'tssert:expectType' as const;
 
 assignableTo[API_PROPERTY_KEY] = 'tssert:assignableTo' as const;
@@ -18,12 +21,17 @@ notAssignableTo[API_PROPERTY_KEY] = 'tssert:notAssignableTo' as const;
 identicalTo[API_PROPERTY_KEY] = 'tssert:identicalTo' as const;
 notIdenticalTo[API_PROPERTY_KEY] = 'tssert:notIdenticalTo' as const;
 
+subtypeOf[API_PROPERTY_KEY] = 'tssert:subtypeOf' as const;
+notSubtypeOf[API_PROPERTY_KEY] = 'tssert:notSubtypeOf' as const;
+
 const api = {
   assignableTo,
   identicalTo,
+  subtypeOf,
   not: {
     assignableTo: notAssignableTo,
     identicalTo: notIdenticalTo,
+    subtypeOf: notSubtypeOf,
   },
 } as const;
 
