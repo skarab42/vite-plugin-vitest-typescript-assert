@@ -1,5 +1,5 @@
-import { missingArgument } from './util';
 import type ts from 'unleashed-typescript';
+import { missingArgument } from '../util';
 import type { Assertion } from '../../types';
 import type { Compiler } from '../../../typescript/types';
 import { createAssertionDiagnostic } from '../../diagnostics';

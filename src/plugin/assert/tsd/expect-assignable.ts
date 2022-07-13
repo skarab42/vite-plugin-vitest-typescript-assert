@@ -2,7 +2,7 @@ import type ts from 'unleashed-typescript';
 import type { Assertion } from '../../types';
 import { ErrorCode } from '../../../common/error';
 import type { Compiler } from '../../../typescript/types';
-import { missingGeneric, missingArgument, typeError } from './util';
+import { missingGeneric, missingArgument, typeError } from '../util';
 
 // In tsd this is handled directlly by TypeScript.
 export function expectAssignable(

@@ -1,10 +1,9 @@
 import { getTypes } from './util';
 import type ts from 'unleashed-typescript';
-import { hasDeprecatedTag } from '../util';
-import { argumentError } from '../tsd/util';
 import type { Assertion } from '../../types';
 import { ErrorCode } from '../../../common/error';
 import type { Compiler } from '../../../typescript/types';
+import { hasDeprecatedTag, argumentError } from '../util';
 
 export function notToBeDeprecated(
   { node }: Assertion,

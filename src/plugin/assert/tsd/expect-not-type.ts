@@ -2,7 +2,7 @@ import type ts from 'unleashed-typescript';
 import type { Assertion } from '../../types';
 import { ErrorCode } from '../../../common/error';
 import type { Compiler } from '../../../typescript/types';
-import { missingGeneric, missingArgument, typeError } from './util';
+import { missingGeneric, missingArgument, typeError } from '../util';
 
 // https://github.dev/SamVerschueren/tsd/blob/e4a398c1b47a4d2f914446b662840e2be5994997/source/lib/assertions/handlers/identicality.ts#L61
 export function expectNotType({ node }: Assertion, { sourceFile, typeChecker }: Compiler): ts.Diagnostic | undefined {
