@@ -5,3 +5,4 @@ export * from './identical-to';
 export * from './not-identical-to';
 export * from './subtype-of';
 export * from './not-subtype-of';
+export * from './equal-to';

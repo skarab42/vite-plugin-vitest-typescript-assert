@@ -48,3 +48,8 @@ test('test-9', () => {
   expectType<string>().subtypeOf('hello');
   expectType<string>().not.subtypeOf('hello');
 });
+
+test('test-9', () => {
+  expectType<'hello'>().equalTo('hello');
+  expectType<'hello'>().not.equalTo('hello');
+});
