@@ -5,7 +5,7 @@ import type { Compiler } from '../../../typescript/types';
 import { createAssertionDiagnostic } from '../../diagnostics';
 import { ErrorCode, errorMessage } from '../../../common/error';
 
-function inRange(argument: ts.Expression, diagnostic: ts.Diagnostic): boolean {
+function inRange(argument: ts.Node, diagnostic: ts.Diagnostic): boolean {
   return !!diagnostic.start && argument.getStart() <= diagnostic.start && diagnostic.start <= argument.getEnd();
 }
 

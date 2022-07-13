@@ -22,8 +22,8 @@ export function typeError(
 }
 
 type Types =
-  | { type: ts.Type; position: number; diagnostic?: never }
-  | { diagnostic: ts.Diagnostic; type?: never; position?: never };
+  | { type: ts.Type; position: number; argument: ts.Node; diagnostic?: never }
+  | { diagnostic: ts.Diagnostic; type?: never; position?: never; argument?: never };
 
 export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): Types {
   let type = undefined;
@@ -31,14 +31,17 @@ export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): 
 
   let middlePosition = -1;
 
-  if (node.typeArguments?.[0]) {
-    type = typeChecker.getTypeFromTypeNode(node.typeArguments[0]);
-    middlePosition = getMiddle(node.typeArguments[0]);
+  const typeArgument = node.typeArguments?.[0];
+  const valueArgument = node.arguments[0];
+
+  if (typeArgument) {
+    type = typeChecker.getTypeFromTypeNode(typeArgument);
+    middlePosition = getMiddle(typeArgument);
   }
 
-  if (node.arguments[0]) {
-    value = typeChecker.getTypeAtLocation(node.arguments[0]);
-    middlePosition = getMiddle(node.arguments[0]);
+  if (valueArgument) {
+    value = typeChecker.getTypeAtLocation(valueArgument);
+    middlePosition = getMiddle(valueArgument);
   }
 
   if (type && value) {
@@ -46,17 +49,17 @@ export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): 
       diagnostic: createAssertionDiagnostic(
         errorMessage(ErrorCode.ASSERT_MIXED_TYPE_AND_VALUE),
         node.getSourceFile(),
-        getMiddle(node.typeArguments?.[0] ?? node),
+        getMiddle(typeArgument ?? node),
       ),
     };
   }
 
-  if (type) {
-    return { type, position: middlePosition };
+  if (type && typeArgument) {
+    return { type, position: middlePosition, argument: typeArgument };
   }
 
-  if (value) {
-    return { type: value, position: middlePosition };
+  if (value && valueArgument) {
+    return { type: value, position: middlePosition, argument: valueArgument };
   }
 
   return {

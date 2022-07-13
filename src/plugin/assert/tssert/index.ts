@@ -6,3 +6,5 @@ export * from './not-identical-to';
 export * from './subtype-of';
 export * from './not-subtype-of';
 export * from './equal-to';
+export * from './to-be-deprecated';
+export * from './not-to-be-deprecated';

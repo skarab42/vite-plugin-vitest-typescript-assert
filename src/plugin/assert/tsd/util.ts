@@ -40,7 +40,7 @@ export function typeError(
 export function argumentError(
   code: ErrorCode,
   typeChecker: ts.TypeChecker,
-  argument: ts.Expression,
+  argument: ts.Node,
   sourceFile: ts.SourceFile,
   node: ts.CallExpression,
 ): ts.Diagnostic | undefined {
@@ -53,27 +53,9 @@ export function argumentError(
   );
 }
 
-export function hasDeprecatedTag(argument: ts.Expression, typeChecker: ts.TypeChecker): boolean {
-  const signatureOrSymbol = ts.isCallLikeExpression(argument)
-    ? typeChecker.getResolvedSignature(argument)
-    : typeChecker.getSymbolAtLocation(argument);
-
-  if (!signatureOrSymbol) {
-    return false;
-  }
-
-  const tags = signatureOrSymbol.getJsDocTags();
-
-  if (!tags.length) {
-    return false;
-  }
-
-  return !!tags.find((tag) => tag.name === 'deprecated');
-}
-
-export function expressionToString(typeChecker: ts.TypeChecker, expression: ts.Expression): string | undefined {
-  if (ts.isCallLikeExpression(expression)) {
-    const signature = typeChecker.getResolvedSignature(expression);
+export function expressionToString(typeChecker: ts.TypeChecker, node: ts.Node): string | undefined {
+  if (ts.isCallLikeExpression(node)) {
+    const signature = typeChecker.getResolvedSignature(node);
 
     if (signature) {
       return typeChecker.signatureToString(signature);
@@ -82,11 +64,11 @@ export function expressionToString(typeChecker: ts.TypeChecker, expression: ts.E
     return;
   }
 
-  const symbol = typeChecker.getSymbolAtLocation(expression);
+  const symbol = typeChecker.getSymbolAtLocation(node);
 
   if (symbol) {
-    return typeChecker.symbolToString(symbol, expression);
+    return typeChecker.symbolToString(symbol, node);
   }
 
-  return;
+  return node.getText();
 }

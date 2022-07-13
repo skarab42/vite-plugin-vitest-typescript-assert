@@ -6,8 +6,8 @@ import { testWrapperIdentifiers } from './identifiers';
 
 export interface TestWrapper {
   name: string;
-  handler: ts.Expression;
-  expression: ts.Expression;
+  handler: ts.Node;
+  expression: ts.Node;
 }
 
 export function searchTestWrapperFromPosition(sourceFile: ts.SourceFile, position: number): TestWrapper | undefined {

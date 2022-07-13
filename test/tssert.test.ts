@@ -53,3 +53,26 @@ test('test-9', () => {
   expectType<'hello'>().equalTo('hello');
   expectType<'hello'>().not.equalTo('hello');
 });
+
+test('test-9', () => {
+  // expectType<UnicornClass>().toBeDeprecated();
+  // expectType<UnicornClass>().not.toBeDeprecated();
+  expectType(UnicornClass).toBeDeprecated();
+  expectType(UnicornClass).not.toBeDeprecated();
+});
+
+test('test-9', () => {
+  expectType<RainbowClass>().toBeDeprecated();
+  expectType<RainbowClass>().not.toBeDeprecated();
+});
+
+/**
+ * @deprecated
+ */
+export class UnicornClass {
+  readonly key = '🦄';
+}
+
+export class RainbowClass {
+  readonly key = '🌈';
+}
