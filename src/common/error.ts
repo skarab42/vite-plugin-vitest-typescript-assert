@@ -10,6 +10,7 @@ export enum ErrorCode {
   ASSERT_MISSING_METHOD,
   ASSERT_MISSING_TYPE_OR_VALUE,
   ASSERT_MIXED_TYPE_AND_VALUE,
+  ASSERT_STRING_OR_NUMBER_LITERAL,
 
   ASSERT_TYPE_NOT_ASSIGNABLE,
   ASSERT_TYPE_ASSIGNABLE,
@@ -20,6 +21,8 @@ export enum ErrorCode {
   ASSERT_TYPE_SUBTYPE,
 
   ASSERT_ERROR,
+  ASSERT_ERROR_CODE,
+  ASSERT_ERROR_MESSAGE,
   ASSERT_DEPRECATED,
   ASSERT_NOT_DEPRECATED,
 }
@@ -37,6 +40,7 @@ export const errorMessages: Record<ErrorCode, string> = {
     "Missing right side methods, expected something like 'expectType('hello').assignableTo<string>()'.",
   [ErrorCode.ASSERT_MISSING_TYPE_OR_VALUE]: 'A type or value is missing.',
   [ErrorCode.ASSERT_MIXED_TYPE_AND_VALUE]: 'Do not define a type and value at the same time.',
+  [ErrorCode.ASSERT_STRING_OR_NUMBER_LITERAL]: 'A literal string or number is expected.',
 
   [ErrorCode.ASSERT_TYPE_NOT_ASSIGNABLE]: "Type '{expected}' is not assignable to type '{argument}'.",
   [ErrorCode.ASSERT_TYPE_ASSIGNABLE]: "Type '{expected}' is assignable to type '{argument}'.",
@@ -47,6 +51,9 @@ export const errorMessages: Record<ErrorCode, string> = {
   [ErrorCode.ASSERT_TYPE_SUBTYPE]: "Type '{expected}' is subtype of argument type '{argument}'.",
 
   [ErrorCode.ASSERT_ERROR]: 'An error is expected.',
+  [ErrorCode.ASSERT_ERROR_CODE]: "An error with code '{expected}' is expected, received '{received}'.",
+  [ErrorCode.ASSERT_ERROR_MESSAGE]: "An error including the message '{expected}' is expected, received '{received}'.",
+
   [ErrorCode.ASSERT_DEPRECATED]: "Expected '{argument}' to be marked as '@deprecated'.",
   [ErrorCode.ASSERT_NOT_DEPRECATED]: "Expected '{argument}' to not be marked as '@deprecated'.",
 };

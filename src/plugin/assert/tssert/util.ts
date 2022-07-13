@@ -22,8 +22,8 @@ export function typeError(
 }
 
 type Types =
-  | { type: ts.Type; position: number; argument: ts.Node; diagnostic?: never }
-  | { diagnostic: ts.Diagnostic; type?: never; position?: never; argument?: never };
+  | { type: ts.Type; position: number; argument: ts.Node; errorCode?: never; diagnostic?: never }
+  | { errorCode: ErrorCode; diagnostic: ts.Diagnostic; type?: never; position?: never; argument?: never };
 
 export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): Types {
   let type = undefined;
@@ -46,6 +46,7 @@ export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): 
 
   if (type && value) {
     return {
+      errorCode: ErrorCode.ASSERT_MIXED_TYPE_AND_VALUE,
       diagnostic: createAssertionDiagnostic(
         errorMessage(ErrorCode.ASSERT_MIXED_TYPE_AND_VALUE),
         node.getSourceFile(),
@@ -63,6 +64,7 @@ export function getTypes(node: ts.CallExpression, typeChecker: ts.TypeChecker): 
   }
 
   return {
+    errorCode: ErrorCode.ASSERT_MISSING_TYPE_OR_VALUE,
     diagnostic: createAssertionDiagnostic(
       errorMessage(ErrorCode.ASSERT_MISSING_TYPE_OR_VALUE),
       node.getSourceFile(),

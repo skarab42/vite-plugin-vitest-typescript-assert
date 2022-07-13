@@ -66,6 +66,28 @@ test('test-9', () => {
   expectType<RainbowClass>().not.toBeDeprecated();
 });
 
+test('test-4', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  expectType(42 === 'life').toThrowError();
+});
+
+test('test-5', () => {
+  expectType(true).toThrowError();
+});
+
+test('test-4', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  expectType(42 === 'life').toThrowError(2367);
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  expectType(42 === 'life').toThrowError('Prout');
+});
+
+test.only('test-4', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  expectType(42 === 'life').toThrowError(42);
+});
+
 /**
  * @deprecated
  */

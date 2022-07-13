@@ -8,3 +8,4 @@ export * from './not-subtype-of';
 export * from './equal-to';
 export * from './to-be-deprecated';
 export * from './not-to-be-deprecated';
+export * from './to-throw-error';

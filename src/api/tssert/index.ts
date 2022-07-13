@@ -18,6 +18,8 @@ function equalTo<TargetType>(_target?: unknown) {}
 function toBeDeprecated<TargetType>(_target?: unknown) {}
 function notToBeDeprecated<TargetType>(_target?: unknown) {}
 
+function toThrowError<TargetType = undefined>(_target: unknown = undefined) {}
+
 expectType[API_PROPERTY_KEY] = 'tssert:expectType' as const;
 
 assignableTo[API_PROPERTY_KEY] = 'tssert:assignableTo' as const;
@@ -29,10 +31,12 @@ notIdenticalTo[API_PROPERTY_KEY] = 'tssert:notIdenticalTo' as const;
 subtypeOf[API_PROPERTY_KEY] = 'tssert:subtypeOf' as const;
 notSubtypeOf[API_PROPERTY_KEY] = 'tssert:notSubtypeOf' as const;
 
+equalTo[API_PROPERTY_KEY] = 'tssert:equalTo' as const;
+
 toBeDeprecated[API_PROPERTY_KEY] = 'tssert:toBeDeprecated' as const;
 notToBeDeprecated[API_PROPERTY_KEY] = 'tssert:notToBeDeprecated' as const;
 
-equalTo[API_PROPERTY_KEY] = 'tssert:equalTo' as const;
+toThrowError[API_PROPERTY_KEY] = 'tssert:toThrowError' as const;
 
 const api = {
   assignableTo,
@@ -40,6 +44,7 @@ const api = {
   subtypeOf,
   equalTo,
   toBeDeprecated,
+  toThrowError,
   not: {
     assignableTo: notAssignableTo,
     identicalTo: notIdenticalTo,

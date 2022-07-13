@@ -90,3 +90,7 @@ export function hasDeprecatedTag(argument: ts.Node, typeChecker: ts.TypeChecker)
 
   return !!tags.find((tag) => tag.name === 'deprecated');
 }
+
+export function isArgumentInDiagnostic(argument: ts.Node, diagnostic: ts.Diagnostic): boolean {
+  return !!diagnostic.start && argument.getStart() <= diagnostic.start && diagnostic.start <= argument.getEnd();
+}
