@@ -5,7 +5,7 @@ import type { CompilerSettings, Compiler } from './types';
 export function createCompiler({ fileName, config }: CompilerSettings): Compiler {
   const compilerOptions = { ...ts.getDefaultCompilerOptions(), ...config.options };
   const program = ts.createProgram([fileName], compilerOptions);
-  const diagnostics = ts.getPreEmitDiagnostics(program);
+  const diagnostics = ts.getPreEmitDiagnostics(program) as ts.Diagnostic[];
   const sourceFile = program.getSourceFile(fileName);
   const typeChecker = program.getTypeChecker();
 
