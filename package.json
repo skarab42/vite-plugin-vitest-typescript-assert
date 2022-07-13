@@ -51,6 +51,7 @@
   "scripts": {
     "up-hooks": "npx simple-git-hooks",
     "prepare": "pnpm up-hooks",
+    "postinstall": "pnpm unleashed-typescript",
     "build": "tsup",
     "watch": "nodemon ./src/program/index.ts",
     "check": "tsc -p ./tsconfig.check.json",
