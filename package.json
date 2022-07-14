@@ -49,8 +49,7 @@
     "build"
   ],
   "scripts": {
-    "up-hooks": "npx simple-git-hooks",
-    "prepare": "pnpm up-hooks",
+    "prepare": "pnpm npx simple-git-hooks",
     "postinstall": "pnpm unleashed-typescript",
     "build": "tsup",
     "watch": "nodemon ./src/program/index.ts",
@@ -70,8 +69,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-unicorn": "^43.0.1",
     "lint-staged": "^13.0.3",
-    "magic-string": "^0.26.2",
-    "micromatch": "^4.0.5",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.3",
@@ -80,9 +77,13 @@
     "tslib": "^2.4.0",
     "tsup": "^6.1.2",
     "typescript": "^4.7.4",
-    "unleashed-typescript": "^1.0.1",
     "vite": "^2.9.13",
     "vitest": "^0.17.0"
+  },
+  "dependencies": {
+    "micromatch": "^4.0.5",
+    "magic-string": "^0.26.2",
+    "unleashed-typescript": "^1.1.1"
   },
   "peerDependencies": {
     "typescript": "*",

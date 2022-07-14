@@ -5,9 +5,10 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   outDir: 'build',
   platform: 'node',
-  splitting: false,
+  splitting: true,
   sourcemap: true,
   minify: false,
   clean: true,
   dts: true,
+  external: ['typescript', 'vitest'],
 });
