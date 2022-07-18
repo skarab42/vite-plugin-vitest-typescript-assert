@@ -3,7 +3,7 @@ import { createError, ErrorCode } from '../common/error';
 import type { CompilerSettings, Compiler } from './types';
 
 export function createCompiler({ fileName, config }: CompilerSettings): Compiler {
-  const compilerOptions = { ...ts.getDefaultCompilerOptions(), ...config.options };
+  const compilerOptions = { ...ts.getDefaultCompilerOptions(), ...config.options, esModuleInterop: true };
   const program = ts.createProgram([fileName], compilerOptions);
   const diagnostics = ts.getPreEmitDiagnostics(program) as ts.Diagnostic[];
   const sourceFile = program.getSourceFile(fileName);
