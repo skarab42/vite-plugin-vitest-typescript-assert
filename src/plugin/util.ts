@@ -1,4 +1,4 @@
-import { isMatch } from 'micromatch';
+import micromatch from 'micromatch';
 import type { IncludeExclude } from './types';
 
 const fileNameMatchCache = new Map<string, boolean>();
@@ -10,7 +10,7 @@ export function fileNameMatch(fileName: string, options: IncludeExclude): boolea
 
   const { include, exclude } = options;
 
-  if (!isMatch(fileName, include) || isMatch(fileName, exclude)) {
+  if (!micromatch.isMatch(fileName, include) || micromatch.isMatch(fileName, exclude)) {
     fileNameMatchCache.set(fileName, false);
 
     return false;
