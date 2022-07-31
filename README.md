@@ -18,7 +18,7 @@ pnpm add -D vitest typescript vite-plugin-vitest-typescript-assert
 Setup the plugin in `vitest.config.ts` file.
 
 ```ts
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import { vitestTypescriptAssertPlugin } from 'vite-plugin-vitest-typescript-assert';
 
 export default defineConfig({
